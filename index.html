@@ -19,11 +19,11 @@
     color-scheme: dark;
   }
   *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#e6eef8;background:linear-gradient(180deg,#061021 0%, #071427 60%);-webkit-font-smoothing:antialiased}
-
-  .wrap{max-width:1200px;margin:34px auto;padding:22px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.008));border-radius:14px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 420px;gap:20px}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#e6eef8;background:linear-gradient(180deg,#061021 0%, #071427 60%);-webkit-font-smoothing:antialiased;}
+  body{min-height:100vh;}
+  .wrap{max-width:1200px;margin:34px auto;padding:22px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.008));border-radius:14px;box-shadow:var(--shadow);display:grid;grid-template-columns:1.1fr 1fr;gap:26px;}
   header{display:flex;align-items:center;gap:16px}
-  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:18px}
+  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:26px;}
   h1{margin:0;font-size:20px}
   .meta{color:var(--muted);font-size:13px}
 
@@ -36,8 +36,7 @@
   .btn.warn{background:var(--danger)}
 
   .row{display:flex;gap:10px;align-items:center}
-  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:14px;margin-bottom:12px;box-shadow: 0 6px 20px rgba(2,6,23,0.45);border:1px solid rgba(255,255,255,0.02)}
-
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:14px;margin-bottom:12px;box-shadow: 0 6px 20px rgba(2,6,23,0.45);border:1px solid rgba(255,255,255,0.026);}
   label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
   input[type="text"],textarea,select{
     width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:var(--panel);color:#eaf1ff;font-size:14px;outline:none
@@ -45,7 +44,7 @@
   input:focus, textarea:focus{box-shadow:0 6px 18px rgba(76,92,255,0.06);border-color:rgba(108,132,255,0.18)}
 
   .rules-list{max-height:520px;overflow:auto;padding-right:6px}
-  .rule-item{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.0));border:1px solid rgba(255,255,255,0.02);margin-bottom:8px}
+  .rule-item{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.0));border:1px solid rgba(255,255,255,0.02);margin-bottom:6px;}
   .rule-item .meta{font-size:13px;color:var(--muted)}
   .small{font-size:13px;color:var(--muted)}
   .pill{background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:999px;font-weight:600;color:var(--muted);font-size:12px}
@@ -100,7 +99,7 @@
     <div class="card">
       <label>Rules</label>
       <div class="rules-list" id="rulesList" aria-live="polite"></div>
-      <div style="margin-top:12px" class="small muted-note">Rules are evaluated from top to bottom. Simple rules use substring match by default. JavaScript rules can use async/await and arbitrary logic. Use responsibly.</div>
+      <div style="margin-top:12px" class="small muted-note">Rules are evaluated from top to bottom. Simple rules use substring match by default. JavaScript rules can use async/await and arbitrary logic.</div>
     </div>
 
     <div class="card">
@@ -140,7 +139,7 @@
 </div>
 
 <div id="panel" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(rgba(2,6,23,0.6), rgba(2,6,23,0.6));z-index:40">
-  <div id="panelContent" role="dialog" aria-modal="true" aria-labelledby="panelTitle" style="width:920px;background:linear-gradient(180deg,#07142a,#051025);border-radius:12px;padding:18px;box-shadow:0 20px 60px rgba(2,6,23,0.7)">
+  <div id="panelContent" role="dialog" aria-modal="true" aria-labelledby="panelTitle" style="width:920px;background:linear-gradient(180deg,#07142a,#051025);border-radius:12px;padding:18px;box-shadow:0 8px 30px rgba(2, 6, 23, 0.70)">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
       <div id="panelTitle" style="font-weight:700">Create Rule</div>
       <div style="display:flex;gap:8px">
@@ -172,7 +171,7 @@
 
         <div id="codeMode" style="display:none;margin-top:12px">
           <label>JavaScript Rule (returns botOutput)</label>
-          <div class="muted-note" style="margin-bottom:6px">You have a global constant <strong>userInput</strong> (string). Use <strong>return</strong> to return a string response or null/undefined to skip. Async/await allowed.</div>
+          <div class="muted-note" style="margin-bottom:6px">You have a global constant <strong>userInput</strong> (string). Use <strong>return</strong> to return a string response or null/undefined to fall through.</div>
           <textarea id="codeArea" rows="12" placeholder="// Example:\n// if (userInput.includes('time')) return 'The time is ' + new Date().toLocaleTimeString();\n"></textarea>
         </div>
       </div>
@@ -234,14 +233,14 @@ function saveRule(rule){ if(!rule.id) rule.id = uid('r'); state.rules.push(rule)
 function updateRule(id, patch){ const idx = state.rules.findIndex(x=>x.id===id); if(idx===-1) return; state.rules[idx] = Object.assign({}, state.rules[idx], patch); renderRules(); }
 function replaceRule(id, newRule){ state.rules = state.rules.map(r=> r.id===id? newRule: r); renderRules(); }
 function removeRule(id){ state.rules = state.rules.filter(x=>x.id!==id); renderRules(); }
-function moveRule(id, dir){ const idx = state.rules.findIndex(x=>x.id===id); if(idx<0) return; const n = idx + (dir>0?1:-1); if(n<0||n>=state.rules.length) return; const tmp = state.rules[n]; state.rules[n]=state.rules[idx]; state.rules[idx]=tmp; renderRules(); }
+function moveRule(id, dir){ const idx = state.rules.findIndex(x=>x.id===id); if(idx<0) return; const n = idx + (dir>0?1:-1); if(n<0||n>=state.rules.length) return; const tmp = state.rules[n]; state.rules[n] = state.rules[idx]; state.rules[idx] = tmp; renderRules(); }
 
 function renderRules(){
   rulesList.innerHTML = '';
   state.rules.forEach((r,i)=>{
     const el = document.createElement('div'); el.className='rule-item';
     const left = document.createElement('div');
-    left.innerHTML = `<div style="font-weight:600">${escapeHtml(r.name||('Rule '+(i+1)))}</div>\n      <div class="meta">${r.mode==='simple' ? 'Simple' : 'JavaScript'} ${r.mode==='simple' ? '• '+(r.contains||[]).slice(0,4).join(', ') : ''}</div>`;
+    left.innerHTML = `<div style="font-weight:600">${escapeHtml(r.name||('Rule '+(i+1)))}</div>\n      <div class="meta">${r.mode==='simple' ? 'Simple' : 'JavaScript'} ${r.mode==='simple' ? '• '+(r.contains||[]).join(', ') : ''}</div>`;
     const right = document.createElement('div'); right.className='rule-actions';
 
     const previewBtn = document.createElement('button'); previewBtn.className='small-ghost'; previewBtn.textContent='Preview'; previewBtn.onclick = ()=> showRulePreview(r);
@@ -382,11 +381,11 @@ function buildExportJs(){
     } else {
       const codeBlock = r.code.replace(/\r/g,'').split('\n').map(line=>'      '+line).join('\n');
       const nameEsc = r.name.replace(/'/g,"\\'").replace(/\n/g,' ');
-      return `// Rule ${idx+1} (code) - ${nameEsc}\n    { try{ const __fn = (async function(userInput){\n${codeBlock}\n    }); const __res = await __fn(userInput); if(typeof __res === 'string') return __res; } catch(e){ return '[Rule error in ${nameEsc}]: ' + (e && e.message? e.message : String(e)); } }`;
+      return `// Rule ${idx+1} (code) - ${nameEsc}\n    { try{ const __fn = (async function(userInput){\n${codeBlock}\n    }); const __res = await __fn(userInput); if(typeof __res === 'string') return __res; }catch(e){} }`;
     }
   }).join('\n\n');
 
-  const file = `// Exported ChatBot: ${botName}\n(function(global){\n  const BOT_NAME = '${botName}';\n  async function reply(userInput){\n${rulesCode}\n    return null;\n  }\n  global.ChatBot_${idSafe} = { name: BOT_NAME, reply };\n  if(!global.ChatBot) global.ChatBot = {}; global.ChatBot[BOT_NAME] = global.ChatBot_${idSafe};\n})(typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this));`;
+  const file = `// Exported ChatBot: ${botName}\n(function(global){\n  const BOT_NAME = '${botName}';\n  async function reply(userInput){\n${rulesCode}\n    return null;\n  }\n  global.ChatBot_${idSafe} = { reply, name: BOT_NAME };\n})(typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this));\n`;
   return file;
 }
 
@@ -395,7 +394,7 @@ function updateExportPreview(){
   const sample = buildExportJs(); exportPreview.textContent = sample.slice(0, 1400) + (sample.length>1400 ? '\n\n... (truncated)' : '');
 }
 
-
+// The download function is unchanged but we'll hook up downloadBtn properly below
 function download(filename, text){
   const blob = new Blob([text], {type:'application/javascript;charset=utf-8'});
   const url = URL.createObjectURL(blob);
@@ -409,18 +408,28 @@ function download(filename, text){
   URL.revokeObjectURL(url);          // release memory
 }
 
+// Fix: Properly connect the download button to export and download the actual .js with the full code.
+downloadBtn.onclick = ()=>{
+  if(state.rules.length === 0){
+    alert('Add rules to export your bot!');
+    return;
+  }
+  const bn = safeName(botNameInput.value) || "MyBot";
+  const js = buildExportJs();
+  download(`${bn}.js`, js);
+};
 
 exportSampleBtn.onclick = ()=>{
   if(state.rules.length===0){ alert('Add rules first'); return; }
   const bn = safeName(botNameInput.value);
-  const snippet = `<!-- Include exported bot file then use it like this -->\n<script src="${bn}.js"><\/script>\n<script>\n(async ()=>{\n  const res = await ChatBot_${bn}.reply('Hello');\n  console.log('bot replied:', res);\n})();\n<\/script>`;
+  const snippet = `<!-- Include exported bot file then use it like this -->\n<script src="${bn}.js"><\/script>\n<script>\n(async ()=>{\n  const res = await ChatBot_${bn}.reply('Hello');\n  console.log(res);\n})();\n<\/script>`;
   navigator.clipboard && navigator.clipboard.writeText(snippet).then(()=> alert('Sample usage copied to clipboard'));
 };
 
 function escapeHtml(s){ return String(s).replace(/[&<>\"']/g, m=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 
 panel.addEventListener('click', (e)=>{ if(e.target === panel) closePanel(); });
-document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && panel.style.display==='flex') closePanel(); if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); openPanelForEdit(); } });
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && panel.style.display==='flex') closePanel(); if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); openPanelForEdit(); }});
 
 renderRules(); updateExportPreview();
 
