@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ChatBot Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b1220;
+    --panel:#071027;
+    --card:#0f1724;
+    --muted:#97a6bf;
+    --accent:#6b8cff;
+    --accent-2:#3ec5c5;
+    --glass: rgba(255,255,255,0.02);
+    --success:#22c55e; --danger:#ff6b6b; --shadow: 0 8px 30px rgba(2,6,23,0.6);
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#e6eef8;background:linear-gradient(180deg,#061021 0%, #071427 60%);-webkit-font-smoothing:antialiased}
+
+  .wrap{max-width:1200px;margin:34px auto;padding:22px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.008));border-radius:14px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 420px;gap:20px}
+  header{display:flex;align-items:center;gap:16px}
+  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:18px}
+  h1{margin:0;font-size:20px}
+  .meta{color:var(--muted);font-size:13px}
+
+  .left{padding:8px}
+  .controls{display:flex;gap:8px;align-items:center;margin:10px 0 18px}
+
+  .btn{background:var(--accent);border:none;color:white;padding:10px 12px;border-radius:10px;font-weight:600;cursor:pointer;box-shadow:0 10px 30px rgba(78,96,255,0.12);transition:transform .12s ease}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);box-shadow:none}
+  .btn.warn{background:var(--danger)}
+
+  .row{display:flex;gap:10px;align-items:center}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:14px;margin-bottom:12px;box-shadow: 0 6px 20px rgba(2,6,23,0.45);border:1px solid rgba(255,255,255,0.02)}
+
+  label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+  input[type="text"],textarea,select{
+    width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:var(--panel);color:#eaf1ff;font-size:14px;outline:none
+  }
+  input:focus, textarea:focus{box-shadow:0 6px 18px rgba(76,92,255,0.06);border-color:rgba(108,132,255,0.18)}
+
+  .rules-list{max-height:520px;overflow:auto;padding-right:6px}
+  .rule-item{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.0));border:1px solid rgba(255,255,255,0.02);margin-bottom:8px}
+  .rule-item .meta{font-size:13px;color:var(--muted)}
+  .small{font-size:13px;color:var(--muted)}
+  .pill{background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:999px;font-weight:600;color:var(--muted);font-size:12px}
+
+  .right{padding:14px;border-left:1px dashed rgba(255,255,255,0.03)}
+  .preview{height:560px;display:flex;flex-direction:column}
+  .chat-window{flex:1;overflow:auto;padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.02)}
+  .message{max-width:78%;padding:12px 14px;margin:8px 0;border-radius:12px;display:inline-block;font-size:14px}
+  .me{background:linear-gradient(90deg,#0b2339,#092b3f);align-self:flex-end;color:#cfe9ff}
+  .bot{background:linear-gradient(90deg,#101827,#081025);color:#dbeafe}
+
+  .input-row{display:flex;gap:8px;margin-top:12px}
+  .file{display:inline-block;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px dashed rgba(255,255,255,0.03);color:var(--muted);font-size:13px}
+  .toggle{display:inline-flex;align-items:center;gap:8px}
+
+  .switch{width:48px;height:28px;border-radius:999px;background:#091324;padding:3px;position:relative;cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
+  .knob{width:22px;height:22px;border-radius:999px;background:white;position:absolute;left:3px;top:3px;transition:all .18s}
+  .switch.on{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+  .switch.on .knob{left:23px;background:black}
+
+  .muted-note{color:var(--muted);font-size:13px}
+  pre{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;color:#cfe9ff;overflow:auto;font-size:13px}
+  .rule-actions{display:flex;gap:8px;align-items:center}
+  .small-ghost{background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);padding:6px 8px;border-radius:8px;cursor:pointer}
+  footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;color:var(--muted);font-size:13px}
+
+  @media (max-width:980px){.wrap{grid-template-columns:1fr;padding:14px}.right{border-left:none;border-top:1px dashed rgba(255,255,255,0.03)}}
+</style>
+</head>
+<body>
+<div class="wrap" role="application" aria-label="ChatBot Builder">
+  <div class="left">
+    <header>
+      <div class="logo">CB</div>
+      <div>
+        <h1>ChatBot Builder</h1>
+        <div class="meta">Create rule-driven chatbots and export them as a single JavaScript file</div>
+      </div>
+    </header>
+
+    <div class="card" style="margin-top:14px;">
+      <label for="botName">Bot name</label>
+      <input id="botName" type="text" placeholder="MySupportBot" value="MySupportBot" aria-label="Bot name">
+      <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+        <button class="btn" id="createBtn" aria-haspopup="dialog">Create Rule</button>
+        <button class="btn ghost" id="downloadBtn">Download as JavaScript</button>
+        <div style="flex:1"></div>
+        <div class="small muted-note">Rules: <span id="ruleCount">0</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <label>Rules</label>
+      <div class="rules-list" id="rulesList" aria-live="polite"></div>
+      <div style="margin-top:12px" class="small muted-note">Rules are evaluated from top to bottom. Simple rules use substring match by default. JavaScript rules can use async/await and arbitrary logic. Use responsibly.</div>
+    </div>
+
+    <div class="card">
+      <label>Export preview (inline)</label>
+      <pre id="exportPreview" style="height:160px">No export yet.</pre>
+    </div>
+  </div>
+
+  <div class="right">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="font-weight:700">Preview</div>
+      <div class="toggle" title="Auto-scroll">
+        <div class="small muted-note">Auto-scroll</div>
+        <div id="autoScrollSwitch" class="switch on" role="switch" tabindex="0" aria-checked="true">
+          <div class="knob"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card preview">
+      <div class="chat-window" id="chatWindow" aria-live="polite" aria-label="Chat preview"></div>
+
+      <div class="input-row">
+        <input id="userInput" type="text" placeholder="Type a message to test the bot..." aria-label="Test input" />
+        <button class="btn" id="sendBtn">Send</button>
+        <button class="btn ghost" id="clearBtn">Clear</button>
+      </div>
+
+      <footer>
+        <div class="muted-note">Built-in preview uses the current rule set</div>
+        <div>
+          <button class="small-ghost" id="exportSampleBtn">Copy sample usage</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<div id="panel" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(rgba(2,6,23,0.6), rgba(2,6,23,0.6));z-index:40">
+  <div id="panelContent" role="dialog" aria-modal="true" aria-labelledby="panelTitle" style="width:920px;background:linear-gradient(180deg,#07142a,#051025);border-radius:12px;padding:18px;box-shadow:0 20px 60px rgba(2,6,23,0.7)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div id="panelTitle" style="font-weight:700">Create Rule</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn ghost" id="cancelRule">Cancel</button>
+        <button class="btn" id="doneRule">Done</button>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 360px;gap:14px">
+      <div>
+        <label for="ruleName">Rule name</label>
+        <input id="ruleName" placeholder="e.g., Refunds helper">
+
+        <div style="display:flex;gap:10px;margin-top:10px;align-items:center">
+          <label class="pill">Mode</label>
+          <div style="display:flex;gap:8px">
+            <button id="simpleModeBtn" class="btn small-ghost">Simple</button>
+            <button id="codeModeBtn" class="btn">JavaScript</button>
+          </div>
+        </div>
+
+        <div id="simpleMode" style="margin-top:12px">
+          <label>If prompt contains (comma-separated phrases)</label>
+          <input id="ifContains" placeholder="refund, money back, return">
+
+          <label style="margin-top:10px">Respond with</label>
+          <textarea id="respondWith" rows="6" placeholder="Thanks — I can help with refunds. Please tell me your order number."></textarea>
+        </div>
+
+        <div id="codeMode" style="display:none;margin-top:12px">
+          <label>JavaScript Rule (returns botOutput)</label>
+          <div class="muted-note" style="margin-bottom:6px">You have a global constant <strong>userInput</strong> (string). Use <strong>return</strong> to return a string response or null/undefined to skip. Async/await allowed.</div>
+          <textarea id="codeArea" rows="12" placeholder="// Example:\n// if (userInput.includes('time')) return 'The time is ' + new Date().toLocaleTimeString();\n"></textarea>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="padding:12px">
+          <div style="font-weight:700;margin-bottom:8px">Rule preview</div>
+          <div id="livePreview" class="small muted-note">Nothing yet</div>
+        </div>
+
+        <div class="card" style="padding:12px;margin-top:12px">
+          <div style="font-weight:700;margin-bottom:8px">Tips</div>
+          <ul style="margin:0;padding-left:18px;color:var(--muted)">
+            <li>Simple mode uses case-insensitive substring matching; commas separate phrases</li>
+            <li>Code mode runs your code inside an async Function with <strong>userInput</strong> and must return a string or null</li>
+            <li>Exported file includes every rule exactly as you entered it for offline use</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const state = { rules: [] };
+const $ = s=> document.querySelector(s);
+const rulesList = $('#rulesList');
+const createBtn = $('#createBtn');
+const panel = $('#panel');
+const panelContent = $('#panelContent');
+const cancelRule = $('#cancelRule');
+const doneRule = $('#doneRule');
+const simpleModeBtn = $('#simpleModeBtn');
+const codeModeBtn = $('#codeModeBtn');
+const simpleMode = $('#simpleMode');
+const codeMode = $('#codeMode');
+const ifContains = $('#ifContains');
+const respondWith = $('#respondWith');
+const codeArea = $('#codeArea');
+const ruleName = $('#ruleName');
+const botNameInput = $('#botName');
+const ruleCount = $('#ruleCount');
+const exportPreview = $('#exportPreview');
+const downloadBtn = $('#downloadBtn');
+const chatWindow = $('#chatWindow');
+const userInputEl = $('#userInput');
+const sendBtn = $('#sendBtn');
+const clearBtn = $('#clearBtn');
+const autoScrollSwitch = $('#autoScrollSwitch');
+const livePreview = $('#livePreview');
+const exportSampleBtn = $('#exportSampleBtn');
+
+let currentEditId = null;
+let autoScroll = true;
+
+function uid(prefix='id'){return prefix+Math.random().toString(36).slice(2,9)}
+
+function saveRule(rule){ if(!rule.id) rule.id = uid('r'); state.rules.push(rule); renderRules(); }
+function updateRule(id, patch){ const idx = state.rules.findIndex(x=>x.id===id); if(idx===-1) return; state.rules[idx] = Object.assign({}, state.rules[idx], patch); renderRules(); }
+function replaceRule(id, newRule){ state.rules = state.rules.map(r=> r.id===id? newRule: r); renderRules(); }
+function removeRule(id){ state.rules = state.rules.filter(x=>x.id!==id); renderRules(); }
+function moveRule(id, dir){ const idx = state.rules.findIndex(x=>x.id===id); if(idx<0) return; const n = idx + (dir>0?1:-1); if(n<0||n>=state.rules.length) return; const tmp = state.rules[n]; state.rules[n]=state.rules[idx]; state.rules[idx]=tmp; renderRules(); }
+
+function renderRules(){
+  rulesList.innerHTML = '';
+  state.rules.forEach((r,i)=>{
+    const el = document.createElement('div'); el.className='rule-item';
+    const left = document.createElement('div');
+    left.innerHTML = `<div style="font-weight:600">${escapeHtml(r.name||('Rule '+(i+1)))}</div>\n      <div class="meta">${r.mode==='simple' ? 'Simple' : 'JavaScript'} ${r.mode==='simple' ? '• '+(r.contains||[]).slice(0,4).join(', ') : ''}</div>`;
+    const right = document.createElement('div'); right.className='rule-actions';
+
+    const previewBtn = document.createElement('button'); previewBtn.className='small-ghost'; previewBtn.textContent='Preview'; previewBtn.onclick = ()=> showRulePreview(r);
+    const editBtn = document.createElement('button'); editBtn.className='small-ghost'; editBtn.textContent='Edit'; editBtn.onclick = ()=> openPanelForEdit(r.id);
+    const up = document.createElement('button'); up.className='small-ghost'; up.textContent='↑'; up.title='Move up'; up.onclick=()=>moveRule(r.id,-1);
+    const down = document.createElement('button'); down.className='small-ghost'; down.textContent='↓'; down.title='Move down'; down.onclick=()=>moveRule(r.id,1);
+    const del = document.createElement('button'); del.className='small-ghost'; del.textContent='Delete'; del.onclick=()=>{ if(confirm('Delete rule?')) removeRule(r.id); };
+
+    right.appendChild(previewBtn); right.appendChild(editBtn); right.appendChild(up); right.appendChild(down); right.appendChild(del);
+    el.appendChild(left); el.appendChild(right);
+    rulesList.appendChild(el);
+  });
+  ruleCount.textContent = state.rules.length;
+  updateExportPreview();
+}
+
+function showRulePreview(r){
+  if(r.mode==='simple'){
+    alert(`If contains: ${ (r.contains||[]).join(', ') }\nRespond: ${r.respond||''}`);
+  } else {
+    alert('JavaScript rule preview:\n\n'+(r.code||''));
+  }
+}
+
+createBtn.onclick = ()=> openPanelForEdit();
+cancelRule.onclick = ()=> closePanel();
+simpleModeBtn.onclick = ()=> switchToSimple();
+codeModeBtn.onclick = ()=> switchToCode();
+doneRule.onclick = ()=> commitRule();
+
+function openPanelForEdit(id=null){
+  currentEditId = id;
+  if(id){
+    const r = state.rules.find(x=>x.id===id);
+    if(r){
+      ruleName.value = r.name || '';
+      if(r.mode==='simple'){ switchToSimple(); ifContains.value = (r.contains||[]).join(', '); respondWith.value = r.respond || ''; }
+      else { switchToCode(); codeArea.value = r.code || ''; }
+    }
+  } else {
+    currentEditId = null;
+    ruleName.value=''; ifContains.value=''; respondWith.value=''; codeArea.value='// Use global userInput (string)\n// return a string to reply or null to continue.';
+    switchToSimple();
+  }
+  panel.style.display='flex';
+  setTimeout(()=> ruleName.focus(), 50);
+  updateLivePreview();
+}
+function closePanel(){ panel.style.display='none'; }
+
+function switchToSimple(){ simpleMode.style.display='block'; codeMode.style.display='none'; simpleModeBtn.classList.add('btn'); codeModeBtn.classList.remove('btn'); }
+function switchToCode(){ simpleMode.style.display='none'; codeMode.style.display='block'; codeModeBtn.classList.add('btn'); simpleModeBtn.classList.remove('btn'); }
+
+function commitRule(){
+  const name = ruleName.value.trim() || 'Rule '+(state.rules.length+1);
+  if(simpleMode.style.display!=='none'){
+    const raw = ifContains.value.trim();
+    const arr = raw ? raw.split(',').map(s=>s.trim()).filter(Boolean) : [];
+    const resp = respondWith.value || '';
+    const rule = {id: currentEditId||uid('r'),name,mode:'simple',contains:arr,respond:resp};
+    if(currentEditId){ replaceRule(currentEditId, rule); } else { saveRule(rule); }
+  } else {
+    const code = codeArea.value || '';
+    const rule = {id: currentEditId||uid('r'),name,mode:'code',code};
+    if(currentEditId){ replaceRule(currentEditId, rule); } else { saveRule(rule); }
+  }
+  closePanel();
+}
+
+function updateLivePreview(){
+  if(simpleMode.style.display!=='none'){
+    const raw = ifContains.value.trim();
+    const arr = raw ? raw.split(',').map(s=>s.trim()).filter(Boolean) : [];
+    livePreview.textContent = arr.length ? `Triggers on: ${arr.join(', ')}` : 'No triggers set';
+  } else {
+    const code = codeArea.value.trim();
+    livePreview.textContent = code ? code.split('\n').slice(0,6).join('\n') : 'No code';
+  }
+}
+ifContains.oninput = updateLivePreview; respondWith.oninput = updateLivePreview; codeArea.oninput = updateLivePreview; ruleName.oninput = updateLivePreview;
+
+async function evaluateRulesForInput(input){
+  for(const r of state.rules){
+    try{
+      if(r.mode==='simple'){
+        if(!r.contains || r.contains.length===0) continue;
+        const low = input.toLowerCase();
+        if(r.contains.some(p=> low.includes(p.toLowerCase()) )){
+          return {from:'bot', text: r.respond || ''};
+        }
+      } else {
+        const wrapped = `(async function(userInput){\n${r.code}\n})(userInput)`;
+        const fn = new Function('userInput','return ' + wrapped + ';');
+        const maybe = fn.call(null, input);
+        const out = (maybe && typeof maybe.then === 'function') ? await maybe : maybe;
+        if(typeof out === 'string') return {from:'bot', text: out};
+      }
+    } catch(e){
+      console.error('Rule error', r.name, e);
+      return {from:'bot', text: `[Rule error in "${r.name}"]: ${e && e.message ? e.message : String(e)}`};
+    }
+  }
+  return {from:'bot', text: "I'm not sure how to help with that."};
+}
+
+function appendMessage(content, who='me'){
+  const el = document.createElement('div');
+  el.className = 'message ' + (who==='me'?'me':'bot');
+  el.textContent = content;
+  chatWindow.appendChild(el);
+  if(autoScroll) chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+sendBtn.onclick = async ()=>{
+  const v = userInputEl.value.trim();
+  if(!v) return;
+  appendMessage(v,'me');
+  userInputEl.value='';
+  const res = await evaluateRulesForInput(v);
+  appendMessage(res.text,'bot');
+};
+
+clearBtn.onclick = ()=> { chatWindow.innerHTML=''; }
+
+autoScrollSwitch.onclick = ()=> { autoScroll = !autoScroll; autoScrollSwitch.classList.toggle('on', autoScroll); autoScrollSwitch.setAttribute('aria-checked', String(!!autoScroll)); };
+
+function safeName(name){ return String(name || 'MyBot').replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_]/g,'') || 'MyBot'; }
+
+function buildExportJs(){
+  const botName = (botNameInput.value || 'MyBot').replace(/'/g,"\\'");
+  const idSafe = safeName(botName);
+
+  const rulesCode = state.rules.map((r,idx)=>{
+    if(r.mode==='simple'){
+      const contains = JSON.stringify(r.contains || []);
+      const resp = JSON.stringify(r.respond || '');
+      return `// Rule ${idx+1} (simple) - ${r.name.replace(/\n/g,' ')}\n    { const phrases = ${contains}; const low = userInput.toLowerCase(); if(phrases.some(p=> low.includes(p.toLowerCase()) )) return ${resp}; }`;
+    } else {
+      const codeBlock = r.code.replace(/\r/g,'').split('\n').map(line=>'      '+line).join('\n');
+      const nameEsc = r.name.replace(/'/g,"\\'").replace(/\n/g,' ');
+      return `// Rule ${idx+1} (code) - ${nameEsc}\n    { try{ const __fn = (async function(userInput){\n${codeBlock}\n    }); const __res = await __fn(userInput); if(typeof __res === 'string') return __res; } catch(e){ return '[Rule error in ${nameEsc}]: ' + (e && e.message? e.message : String(e)); } }`;
+    }
+  }).join('\n\n');
+
+  const file = `// Exported ChatBot: ${botName}\n(function(global){\n  const BOT_NAME = '${botName}';\n  async function reply(userInput){\n${rulesCode}\n    return null;\n  }\n  global.ChatBot_${idSafe} = { name: BOT_NAME, reply };\n  if(!global.ChatBot) global.ChatBot = {}; global.ChatBot[BOT_NAME] = global.ChatBot_${idSafe};\n})(typeof window !== 'undefined' ? window : (typeof global !== 'undefined' ? global : this));`;
+  return file;
+}
+
+function updateExportPreview(){
+  if(state.rules.length===0){ exportPreview.textContent = 'No rules yet. Add rules and then click "Download as JavaScript" to export.'; return; }
+  const sample = buildExportJs(); exportPreview.textContent = sample.slice(0, 1400) + (sample.length>1400 ? '\n\n... (truncated)' : '');
+}
+
+
+function download(filename, text){
+  const blob = new Blob([text], {type:'application/javascript;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.style.display = 'none';          // ensure it's hidden
+  document.body.appendChild(a);
+  a.click();                         // trigger download
+  document.body.removeChild(a);      // clean up properly
+  URL.revokeObjectURL(url);          // release memory
+}
+
+
+exportSampleBtn.onclick = ()=>{
+  if(state.rules.length===0){ alert('Add rules first'); return; }
+  const bn = safeName(botNameInput.value);
+  const snippet = `<!-- Include exported bot file then use it like this -->\n<script src="${bn}.js"><\/script>\n<script>\n(async ()=>{\n  const res = await ChatBot_${bn}.reply('Hello');\n  console.log('bot replied:', res);\n})();\n<\/script>`;
+  navigator.clipboard && navigator.clipboard.writeText(snippet).then(()=> alert('Sample usage copied to clipboard'));
+};
+
+function escapeHtml(s){ return String(s).replace(/[&<>\"']/g, m=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
+
+panel.addEventListener('click', (e)=>{ if(e.target === panel) closePanel(); });
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && panel.style.display==='flex') closePanel(); if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); openPanelForEdit(); } });
+
+renderRules(); updateExportPreview();
+
+window.openPanelForEdit = openPanelForEdit;
+
+</script>
+</body>
+</html>
