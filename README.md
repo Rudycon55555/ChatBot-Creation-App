@@ -13,3 +13,5 @@ Create rule-driven chatbots directly in your browser, preview them live, and exp
 
 ## License
 See [LICENSE.md](LICENSE.md) for source-available terms.
+
+See [WHYtoUSE.md](WHYtoUSE.md) for more details.
