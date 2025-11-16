@@ -19,5 +19,5 @@ See [WHYtoUSE.md](WHYtoUSE.md) for more details.
 See [HOWitHELPS.md](HOWitHELPS.md) to learn how ChatBot Builder makes a difference.
 
 
-## Image
+## Images
 [Image of the App's First Screen](https://www.site-shot.com/cached_image/EqC_VMMaEfCT3gJCrBEAAw)
