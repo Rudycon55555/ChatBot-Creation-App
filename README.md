@@ -11,9 +11,13 @@ Create rule-driven chatbots directly in your browser, preview them live, and exp
 - 🎨 Modern, responsive UI
 - 🔒 100% front-end, no backend needed
 
-## License
+## Extra Info
 See [LICENSE.md](LICENSE.md) for source-available terms.
 
 See [WHYtoUSE.md](WHYtoUSE.md) for more details.
 
 See [HOWitHELPS.md](HOWitHELPS.md) to learn how ChatBot Builder makes a difference.
+
+
+## Image
+[Image of the App's First Screen](https://www.site-shot.com/cached_image/EqC_VMMaEfCT3gJCrBEAAw)
