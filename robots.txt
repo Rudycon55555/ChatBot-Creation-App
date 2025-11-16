@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rudycon55555.github.io/ChatBot-Creation-App/sitemap.xml
