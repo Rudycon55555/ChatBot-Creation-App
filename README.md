@@ -15,3 +15,5 @@ Create rule-driven chatbots directly in your browser, preview them live, and exp
 See [LICENSE.md](LICENSE.md) for source-available terms.
 
 See [WHYtoUSE.md](WHYtoUSE.md) for more details.
+
+See [HOWitHELPS.md](HOWitHELPS.md) to learn how ChatBot Builder makes a difference.
