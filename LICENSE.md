@@ -23,3 +23,6 @@ This software is provided under a **Source-Available License**. You may use, mod
 ---
 
 By using, modifying, or distributing this code, you agree to the terms above.
+
+
+**Also, you may use exported ChatBots ([chatbot name].js) externally without attribution, because technically, you made the chatbot yourself, _entirely_, just in an easier way!**
